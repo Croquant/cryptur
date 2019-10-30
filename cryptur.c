@@ -10,6 +10,9 @@
 
 #define KEYLENGTH 9
 
+/* take a key { 1, 1, 1, 1, 1, 1, 1, 1, 1 }
+ * returns a string #########
+ */
 char* keyString( bool key[] )
 {
 	static char str[KEYLENGTH];
@@ -26,6 +29,9 @@ char* keyString( bool key[] )
 	return str;
 }
 
+/* take a key ex: { 1, 1, 1, 1, 1, 1, 1, 1, 1 }
+ * returns an int ex:  511
+ */
 int keyInt( bool key[] )
 {
 	int total = 0;
@@ -40,6 +46,9 @@ int keyInt( bool key[] )
 	return total;
 }
 
+/* used by addKeys()
+ * xor two bools ex: 1 & 1 = 0, 1 & 0 = 1
+ */
 bool addBool( bool a, bool b)
 {
 	if (a == 1 && b == 1) {
@@ -53,6 +62,11 @@ bool addBool( bool a, bool b)
 	}
 }
 
+/* xor two keys together
+ * ex: { 1, 1, 1, 1, 1, 1, 1, 1, 1 }
+ *    +{ 1, 0, 1, 0, 1, 0, 1, 0, 1 }
+ *    ={ 0, 1, 0, 1, 0 ,1 ,0, 1, 0 }
+ */
 bool* addKeys( bool first[], bool second[] )
 {
 	static bool r[KEYLENGTH];
@@ -64,6 +78,9 @@ bool* addKeys( bool first[], bool second[] )
 	return r;
 }
 
+/* converts an int to a key
+ * ex: 511 > { 1, 1, 1, 1, 1, 1, 1, 1, 1 }
+ */
 bool* intToKey( int n )
 {
 	bool temp[KEYLENGTH];
@@ -89,6 +106,9 @@ bool* intToKey( int n )
 	return r;
 }
 
+/* make sure an int is within range
+ * range: 9 bits = 0-511
+ */
 int range( int n )
 {
 	return abs(n) % 512;
