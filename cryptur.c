@@ -104,8 +104,20 @@ int main( int argc, const char* argv[] )
 	else {
 		input = 0;
 	}
-	bool* writeKey = intToKey(input);
-	printf("%s\n", keyString(writeKey));
+	bool* userKey = intToKey(input);
+	bool* writeKey = addKeys( hundredone, userKey );
+	printf("%s", keyString(writeKey));
+	char shift[3];
+	sprintf(shift, "%d", keyInt(writeKey));
+	if (argc > 2) {
+		int s = 0;
+		for (int i = 0; argv[2][i] != '\0'; ++i) {
+			int add = shift[s] - '0';
+			printf("%c", argv[2][i] + add);
+			s = (s + 1) % 3;
+		}
+	}
 
+	printf("\n");
 	return 0;
 }
