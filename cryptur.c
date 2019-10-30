@@ -5,6 +5,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 
 #define KEYLENGTH 9
@@ -63,16 +64,48 @@ bool* addKeys( bool first[], bool second[] )
 	return r;
 }
 
+bool* intToKey( int n )
+{
+	bool temp[KEYLENGTH];
+	static bool r[KEYLENGTH];
+	int k;
+	int i = 0;
+	for (int c = 8; c >= 0; c--) {
+		k = n >> c;
+
+		if (k & 1) {
+			temp[i] = 1;
+		}
+		else {
+			temp[i] = 0;
+		}
+		i++;
+	}
+	i = 0;
+	for (int n = KEYLENGTH - 1; n >= 0; n--) {
+		r[i] = temp[n];
+		i++;
+	}
+	return r;
+}
+
+int range( int n )
+{
+	return abs(n) % 512;
+}
+
 int main( int argc, const char* argv[] )
 {
 	bool hundredone[] = { 1, 1, 1, 1, 0, 1, 1, 0, 0 };
-	bool fileKey[] =    { 1, 0, 1, 0, 1, 0, 1, 0, 1 };
-	
-	bool* writeKey = addKeys( hundredone, fileKey );
-
-	printf( "%s - %d\n", keyString( hundredone ), keyInt( hundredone ) );
-	printf( "%s - %d\n", keyString( fileKey ), keyInt( fileKey ) );
-	printf( "%s - %d\n", keyString( writeKey ), keyInt( writeKey ) );
+	int input;
+	if (argc > 1) {
+		input = range(atoi(argv[1]));
+	}
+	else {
+		input = 0;
+	}
+	bool* writeKey = intToKey(input);
+	printf("%s\n", keyString(writeKey));
 
 	return 0;
 }
